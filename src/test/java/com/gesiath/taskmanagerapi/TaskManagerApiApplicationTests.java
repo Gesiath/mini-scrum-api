@@ -1,4 +1,4 @@
-package com.gesiath.TaskManagerAPI;
+package com.gesiath.taskmanagerapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
