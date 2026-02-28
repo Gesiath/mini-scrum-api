@@ -1,4 +1,4 @@
-package com.gesiath.taskmanagerapi.enums;
+package com.gesiath.miniscrumapi.enumerator;
 
 import lombok.NoArgsConstructor;
 

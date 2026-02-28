@@ -1,13 +1,13 @@
-package com.gesiath.taskmanagerapi;
+package com.gesiath.miniscrumapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TaskManagerApiApplication {
+public class MiniScrumApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TaskManagerApiApplication.class, args);
+		SpringApplication.run(MiniScrumApiApplication.class, args);
 	}
 
 }

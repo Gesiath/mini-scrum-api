@@ -1,0 +1,68 @@
+package com.gesiath.miniscrumapi.service;
+
+import com.gesiath.miniscrumapi.dto.CreateUserRequestDTO;
+import com.gesiath.miniscrumapi.dto.UpdateUserRequestDTO;
+import com.gesiath.miniscrumapi.dto.UserResponseDTO;
+import com.gesiath.miniscrumapi.entity.User;
+import com.gesiath.miniscrumapi.exception.CustomDataNotFoundException;
+import com.gesiath.miniscrumapi.mapper.UserMapper;
+import com.gesiath.miniscrumapi.respository.UserRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserService implements IUserService{
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository){
+
+        this.userRepository = userRepository;
+
+    }
+
+    @Override
+    public UserResponseDTO create(CreateUserRequestDTO dto) {
+
+        User user = UserMapper.toEntity(dto);
+
+        return UserMapper.toResponse(userRepository.save(user));
+
+    }
+
+    @Override
+    public UserResponseDTO update(String id, UpdateUserRequestDTO dto) {
+
+        User user = userRepository.findById(id).orElseThrow(() -> new CustomDataNotFoundException("User not found"));
+
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+
+        return UserMapper.toResponse(userRepository.save(user));
+
+    }
+
+    @Override
+    public void delete(String id) {
+
+        if (!userRepository.existsById(id)){
+
+            throw new CustomDataNotFoundException("User not found");
+
+        }
+
+        userRepository.deleteById(id);
+
+    }
+
+    @Override
+    public List<UserResponseDTO> getAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(UserMapper::toResponse)
+                .toList();
+    }
+
+}

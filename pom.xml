@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.gesiath</groupId>
-	<artifactId>TaskManagerAPI</artifactId>
+	<artifactId>MiniScrumAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>TaskManagerAPI</name>
-	<description>Task Manager API (Spring Boot)</description>
+	<name>Mini Scrum Management API</name>
+	<description>Mini Scrum API (Spring Boot)</description>
 	<url/>
 	<licenses>
 		<license/>

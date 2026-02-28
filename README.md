@@ -1,6 +1,6 @@
-# Task Manager API
+# Mini Scrum API
 
-REST API developed with Spring Boot for task management.
+Mini Scrum Management API – RESTful backend for backlog and task assignment in agile environments.
 
 ## Technologies used
 

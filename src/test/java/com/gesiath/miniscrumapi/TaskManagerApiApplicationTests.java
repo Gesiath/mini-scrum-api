@@ -1,4 +1,4 @@
-package com.gesiath.taskmanagerapi;
+package com.gesiath.miniscrumapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
