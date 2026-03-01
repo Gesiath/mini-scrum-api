@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 public enum Status {
 
     TODO,
+    IN_PLANNING,
     IN_PROGRESS,
     DONE;
 

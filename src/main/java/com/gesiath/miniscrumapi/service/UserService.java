@@ -23,6 +23,15 @@ public class UserService implements IUserService{
     }
 
     @Override
+    public UserResponseDTO getById(String id){
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new CustomDataNotFoundException("User not found"));
+
+        return UserMapper.toResponse(user);
+    }
+
+    @Override
     public UserResponseDTO create(CreateUserRequestDTO dto) {
 
         User user = UserMapper.toEntity(dto);

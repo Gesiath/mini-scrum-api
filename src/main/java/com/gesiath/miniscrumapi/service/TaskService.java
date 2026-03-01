@@ -28,6 +28,25 @@ public class TaskService implements ITaskService{
     }
 
     @Override
+    public List<TaskResponseDTO> getAll() {
+
+        return taskRepository.findAll()
+                .stream()
+                .map(TaskMapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    public TaskResponseDTO getById(String id){
+
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new CustomDataNotFoundException("Task not found"));
+
+        return TaskMapper.toResponse(task);
+
+    }
+
+    @Override
     public TaskResponseDTO create(CreateTaskRequestDTO dto) {
 
         User user = null;
@@ -87,14 +106,4 @@ public class TaskService implements ITaskService{
         taskRepository.deleteById(id);
 
     }
-
-    @Override
-    public List<TaskResponseDTO> getAll() {
-
-        return taskRepository.findAll()
-                .stream()
-                .map(TaskMapper::toResponse)
-                .toList();
-    }
-
 }
