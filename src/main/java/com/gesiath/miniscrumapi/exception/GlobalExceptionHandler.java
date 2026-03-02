@@ -48,4 +48,16 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body,HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Object> handleEnumError(){
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", 400);
+        body.put("error", "Bad Request");
+        body.put("message", "Invalid status value");
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+
+    }
 }

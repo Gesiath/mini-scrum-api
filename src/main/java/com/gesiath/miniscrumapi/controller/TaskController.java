@@ -3,6 +3,7 @@ package com.gesiath.miniscrumapi.controller;
 import com.gesiath.miniscrumapi.dto.CreateTaskRequestDTO;
 import com.gesiath.miniscrumapi.dto.TaskResponseDTO;
 import com.gesiath.miniscrumapi.dto.UpdateTaskRequestDTO;
+import com.gesiath.miniscrumapi.enumerator.Status;
 import com.gesiath.miniscrumapi.service.ITaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,13 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TaskResponseDTO>> getAll(){
+    public ResponseEntity<List<TaskResponseDTO>> getAll(@RequestParam(required = false) Status status){
+
+        if (status != null){
+
+            return ResponseEntity.ok(iTaskService.getByStatus(status));
+
+        }
 
         return ResponseEntity.ok(iTaskService.getAll());
 

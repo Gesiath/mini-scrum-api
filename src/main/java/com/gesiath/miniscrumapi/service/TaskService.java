@@ -5,6 +5,7 @@ import com.gesiath.miniscrumapi.dto.TaskResponseDTO;
 import com.gesiath.miniscrumapi.dto.UpdateTaskRequestDTO;
 import com.gesiath.miniscrumapi.entity.Task;
 import com.gesiath.miniscrumapi.entity.User;
+import com.gesiath.miniscrumapi.enumerator.Status;
 import com.gesiath.miniscrumapi.exception.CustomDataNotFoundException;
 import com.gesiath.miniscrumapi.mapper.TaskMapper;
 import com.gesiath.miniscrumapi.respository.TaskRepository;
@@ -43,6 +44,16 @@ public class TaskService implements ITaskService{
                 .orElseThrow(() -> new CustomDataNotFoundException("Task not found"));
 
         return TaskMapper.toResponse(task);
+
+    }
+
+    @Override
+    public List<TaskResponseDTO> getByStatus(Status status){
+
+        return taskRepository.findByStatus(status)
+                .stream()
+                .map(TaskMapper::toResponse)
+                .toList();
 
     }
 
