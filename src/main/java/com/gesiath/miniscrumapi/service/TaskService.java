@@ -13,6 +13,7 @@ import com.gesiath.miniscrumapi.respository.UserRepository;
 import org.springframework.stereotype.Service;
 
 
+import javax.swing.text.SimpleAttributeSet;
 import java.util.List;
 
 
@@ -88,6 +89,7 @@ public class TaskService implements ITaskService{
 
         task.setTitle(dto.getTitle());
         task.setDescription(dto.getDescription());
+        validateStatusTransition(task.getStatus(), dto.getStatus());
         task.setStatus(dto.getStatus());
         task.setDoDate(dto.getDoDate());
 
@@ -115,6 +117,42 @@ public class TaskService implements ITaskService{
         }
 
         taskRepository.deleteById(id);
+
+    }
+
+    private void validateStatusTransition(Status current, Status next){
+
+        if (current == Status.DONE){
+            throw new IllegalStateException("Cannot modify a DONE task");
+        }
+
+        if (current == Status.TODO && next == Status.IN_PROGRESS){
+            throw new IllegalStateException("Task must be IN_PLANNING before IN_PROGRESS");
+        }
+
+        if (current == Status.TODO && next == Status.DONE){
+            throw new IllegalStateException("Task must be IN_PROGRESS before DONE");
+        }
+
+        if (current == next){
+            return;
+        }
+
+        if (current == Status.IN_PROGRESS && next == Status.TODO){
+            throw new IllegalStateException("Cannot move task back to TODO");
+        }
+
+        if (current == Status.IN_PROGRESS && next == Status.IN_PLANNING){
+            throw new IllegalStateException("Cannot move task back to IN_PLANNING");
+        }
+
+        if (current == Status.IN_PLANNING && next == Status.TODO){
+            throw new IllegalStateException("Cannot move task back to TODO");
+        }
+
+        if (current == Status.IN_PLANNING && next == Status.DONE){
+            throw new IllegalStateException("Task must be IN_PROGRESS before DONE");
+        }
 
     }
 }
