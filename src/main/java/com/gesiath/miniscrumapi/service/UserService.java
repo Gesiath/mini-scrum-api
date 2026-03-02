@@ -7,9 +7,10 @@ import com.gesiath.miniscrumapi.entity.User;
 import com.gesiath.miniscrumapi.exception.CustomDataNotFoundException;
 import com.gesiath.miniscrumapi.mapper.UserMapper;
 import com.gesiath.miniscrumapi.respository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class UserService implements IUserService{
@@ -67,11 +68,9 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public List<UserResponseDTO> getAll() {
-        return userRepository.findAll()
-                .stream()
-                .map(UserMapper::toResponse)
-                .toList();
+    public Page<UserResponseDTO> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(UserMapper::toResponse);
     }
 
 }

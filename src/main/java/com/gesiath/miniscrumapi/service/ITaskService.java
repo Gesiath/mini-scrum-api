@@ -4,16 +4,17 @@ import com.gesiath.miniscrumapi.dto.CreateTaskRequestDTO;
 import com.gesiath.miniscrumapi.dto.TaskResponseDTO;
 import com.gesiath.miniscrumapi.dto.UpdateTaskRequestDTO;
 import com.gesiath.miniscrumapi.enumerator.Status;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 public interface ITaskService {
 
-    List<TaskResponseDTO> getAll();
+    Page<TaskResponseDTO> getAll(Pageable pageable);
     TaskResponseDTO getById(String id);
-    List<TaskResponseDTO> getByStatus(Status status);
-    List<TaskResponseDTO> getByUser_Id(String user_Id);
-    List<TaskResponseDTO> getByUser_IdAndStatus(String user_Id, Status status);
+    Page<TaskResponseDTO> getByStatus(Status status, Pageable pageable);
+    Page<TaskResponseDTO> getByUser_Id(String user_Id, Pageable pageable);
+    Page<TaskResponseDTO> getByUser_IdAndStatus(String user_Id, Status status, Pageable pageable);
     TaskResponseDTO create(CreateTaskRequestDTO dto);
     TaskResponseDTO update(String id, UpdateTaskRequestDTO dto);
     void delete(String id);

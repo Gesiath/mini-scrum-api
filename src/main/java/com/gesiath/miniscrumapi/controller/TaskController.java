@@ -6,10 +6,11 @@ import com.gesiath.miniscrumapi.dto.UpdateTaskRequestDTO;
 import com.gesiath.miniscrumapi.enumerator.Status;
 import com.gesiath.miniscrumapi.service.ITaskService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -22,26 +23,27 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TaskResponseDTO>> getAll(@RequestParam(required = false) String user_Id,
-                                                        @RequestParam(required = false) Status status){
+    public ResponseEntity<Page<TaskResponseDTO>> getAll(@RequestParam(required = false) String user_Id,
+                                                        @RequestParam(required = false) Status status,
+                                                        Pageable pageable){
 
         if (user_Id != null && status != null) {
-            return ResponseEntity.ok(iTaskService.getByUser_IdAndStatus(user_Id, status));
+            return ResponseEntity.ok(iTaskService.getByUser_IdAndStatus(user_Id, status, pageable));
         }
 
         if (user_Id != null){
 
-            return ResponseEntity.ok(iTaskService.getByUser_Id(user_Id));
+            return ResponseEntity.ok(iTaskService.getByUser_Id(user_Id, pageable));
 
         }
 
         if (status != null){
 
-            return ResponseEntity.ok(iTaskService.getByStatus(status));
+            return ResponseEntity.ok(iTaskService.getByStatus(status, pageable));
 
         }
 
-        return ResponseEntity.ok(iTaskService.getAll());
+        return ResponseEntity.ok(iTaskService.getAll(pageable));
 
     }
 

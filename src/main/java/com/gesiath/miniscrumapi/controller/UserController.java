@@ -5,10 +5,11 @@ import com.gesiath.miniscrumapi.dto.UpdateUserRequestDTO;
 import com.gesiath.miniscrumapi.dto.UserResponseDTO;
 import com.gesiath.miniscrumapi.service.IUserService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,9 +22,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getAll(){
+    public ResponseEntity<Page<UserResponseDTO>> getAll(Pageable pageable){
 
-        return ResponseEntity.ok(iUserService.getAll());
+        return ResponseEntity.ok(iUserService.getAll(pageable));
 
     }
 

@@ -10,10 +10,9 @@ import com.gesiath.miniscrumapi.exception.CustomDataNotFoundException;
 import com.gesiath.miniscrumapi.mapper.TaskMapper;
 import com.gesiath.miniscrumapi.respository.TaskRepository;
 import com.gesiath.miniscrumapi.respository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-
-import java.util.List;
 
 
 @Service
@@ -29,12 +28,10 @@ public class TaskService implements ITaskService{
     }
 
     @Override
-    public List<TaskResponseDTO> getAll() {
+    public Page<TaskResponseDTO> getAll(Pageable pageable) {
 
-        return taskRepository.findAll()
-                .stream()
-                .map(TaskMapper::toResponse)
-                .toList();
+        return taskRepository.findAll(pageable)
+                .map(TaskMapper::toResponse);
     }
 
     @Override
@@ -48,40 +45,33 @@ public class TaskService implements ITaskService{
     }
 
     @Override
-    public List<TaskResponseDTO> getByUser_Id(String user_Id){
+    public Page<TaskResponseDTO> getByUser_Id(String user_Id, Pageable pageable){
 
         if (!userRepository.existsById(user_Id)){
             throw new CustomDataNotFoundException("User not found");
         }
 
-        return taskRepository.findByUser_Id(user_Id)
-                .stream()
-                .map(TaskMapper::toResponse)
-                .toList();
-
+        return taskRepository.findByUser_Id(user_Id, pageable)
+                .map(TaskMapper::toResponse);
     }
 
     @Override
-    public List<TaskResponseDTO> getByUser_IdAndStatus(String user_Id, Status status){
+    public Page<TaskResponseDTO> getByUser_IdAndStatus(String user_Id, Status status, Pageable pageable){
 
         if (!userRepository.existsById(user_Id)){
             throw new CustomDataNotFoundException("User not found");
         }
 
-        return taskRepository.findByUser_IdAndStatus(user_Id, status)
-                .stream()
-                .map(TaskMapper::toResponse)
-                .toList();
+        return taskRepository.findByUser_IdAndStatus(user_Id, status, pageable)
+                .map(TaskMapper::toResponse);
 
     }
 
     @Override
-    public List<TaskResponseDTO> getByStatus(Status status){
+    public Page<TaskResponseDTO> getByStatus(Status status, Pageable pageable){
 
-        return taskRepository.findByStatus(status)
-                .stream()
-                .map(TaskMapper::toResponse)
-                .toList();
+        return taskRepository.findByStatus(status, pageable)
+                .map(TaskMapper::toResponse);
 
     }
 
