@@ -24,6 +24,12 @@ public class UserService implements IUserService{
     }
 
     @Override
+    public Page<UserResponseDTO> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(UserMapper::toResponse);
+    }
+
+    @Override
     public UserResponseDTO getById(String id){
 
         User user = userRepository.findById(id)
@@ -66,11 +72,4 @@ public class UserService implements IUserService{
         userRepository.deleteById(id);
 
     }
-
-    @Override
-    public Page<UserResponseDTO> getAll(Pageable pageable) {
-        return userRepository.findAll(pageable)
-                .map(UserMapper::toResponse);
-    }
-
 }
