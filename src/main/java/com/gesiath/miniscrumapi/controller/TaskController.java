@@ -22,7 +22,18 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TaskResponseDTO>> getAll(@RequestParam(required = false) Status status){
+    public ResponseEntity<List<TaskResponseDTO>> getAll(@RequestParam(required = false) String user_Id,
+                                                        @RequestParam(required = false) Status status){
+
+        if (user_Id != null && status != null) {
+            return ResponseEntity.ok(iTaskService.getByUser_IdAndStatus(user_Id, status));
+        }
+
+        if (user_Id != null){
+
+            return ResponseEntity.ok(iTaskService.getByUser_Id(user_Id));
+
+        }
 
         if (status != null){
 

@@ -13,7 +13,6 @@ import com.gesiath.miniscrumapi.respository.UserRepository;
 import org.springframework.stereotype.Service;
 
 
-import javax.swing.text.SimpleAttributeSet;
 import java.util.List;
 
 
@@ -45,6 +44,34 @@ public class TaskService implements ITaskService{
                 .orElseThrow(() -> new CustomDataNotFoundException("Task not found"));
 
         return TaskMapper.toResponse(task);
+
+    }
+
+    @Override
+    public List<TaskResponseDTO> getByUser_Id(String user_Id){
+
+        if (!userRepository.existsById(user_Id)){
+            throw new CustomDataNotFoundException("User not found");
+        }
+
+        return taskRepository.findByUser_Id(user_Id)
+                .stream()
+                .map(TaskMapper::toResponse)
+                .toList();
+
+    }
+
+    @Override
+    public List<TaskResponseDTO> getByUser_IdAndStatus(String user_Id, Status status){
+
+        if (!userRepository.existsById(user_Id)){
+            throw new CustomDataNotFoundException("User not found");
+        }
+
+        return taskRepository.findByUser_IdAndStatus(user_Id, status)
+                .stream()
+                .map(TaskMapper::toResponse)
+                .toList();
 
     }
 
