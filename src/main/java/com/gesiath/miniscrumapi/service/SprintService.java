@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SprintService implements ISprintService{
 
@@ -90,6 +92,18 @@ public class SprintService implements ISprintService{
 
         }
 
+        List<Task> tasks = sprint.getTasks();
+
+        for (Task task : tasks) {
+            if (task.getStatus() != Status.DONE) {
+                task.setSprint(null); // sends the task back to the backlog
+            }
+        }
+
+        /*
+        Instead of moving unfinished tasks to the backlog,
+        it doesn't allow closing a sprint if all tasks aren't completed.
+
         boolean hasPendingTasks = sprint.getTasks()
                 .stream()
                 .anyMatch(task -> task.getStatus() != Status.DONE);
@@ -99,6 +113,7 @@ public class SprintService implements ISprintService{
             throw new IllegalStateException("Cannot close sprint with unfinished tasks");
 
         }
+        */
 
         sprint.setStatus(SprintStatus.CLOSED);
 
@@ -120,6 +135,16 @@ public class SprintService implements ISprintService{
 
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new CustomDataNotFoundException("Task not found"));
+
+        if (task.getSprint() != null &&
+                task.getSprint().getStatus() == SprintStatus.CLOSED) {
+
+            throw new IllegalStateException("Cannot move task from a closed sprint");
+        }
+
+        if (sprint.getStatus() == SprintStatus.CLOSED) {
+            throw new IllegalStateException("Cannot assign tasks to a closed sprint");
+        }
 
         task.setSprint(sprint);
 
