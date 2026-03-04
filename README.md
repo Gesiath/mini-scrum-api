@@ -1,7 +1,24 @@
-# Mini Scrum Management API
+# 🚀 Mini Scrum Management API
 
-RESTful backend API designed to manage users, tasks, and sprints following Scrum principles.  
-Implements real business rules for sprint lifecycle and task transitions.
+RESTful backend API built with Spring Boot to manage users, tasks, and sprints following Scrum principles.
+
+This project focuses on implementing real business rules around sprint lifecycle management and task state transitions — going beyond a simple CRUD application.
+
+---
+
+## 📌 Overview
+
+The API allows managing:
+
+- Users
+- Tasks
+- Sprints
+
+While enforcing strict business constraints such as:
+
+- Only one ACTIVE sprint at a time
+- Tasks restricted by sprint status
+- Automatic backlog reassignment on sprint closure
 
 ---
 
@@ -9,7 +26,7 @@ Implements real business rules for sprint lifecycle and task transitions.
 
 - User management
 - Task creation and assignment
-- Sprint lifecycle management (PLANNED → ACTIVE → CLOSED)
+- Sprint lifecycle management (`PLANNED → ACTIVE → CLOSED`)
 - Only one ACTIVE sprint allowed at a time
 - Tasks can only be added to PLANNED sprints
 - When closing a sprint:
@@ -35,7 +52,7 @@ Implements real business rules for sprint lifecycle and task transitions.
 ## 🛠 Technologies Used
 
 - Java 21
-- Spring Boot 4
+- Spring Boot
 - Spring Data JPA
 - Hibernate
 - MySQL
@@ -45,15 +62,15 @@ Implements real business rules for sprint lifecycle and task transitions.
 
 ---
 
-## 📂 Architecture
+## 🏗 Architecture
 
-Layered architecture:
+The project follows a layered architecture:
 
-- Controller layer
-- Service layer (business logic)
-- Repository layer
-- DTO mapping
-- Global exception handling
+- Controller layer – REST endpoints
+- Service layer – Business logic and validations
+- Repository layer – Data access (JPA)
+- DTO mapping – Entity separation from API contracts
+- Global exception handling – Centralized error management
 
 ---
 
@@ -66,18 +83,33 @@ Unit tests cover:
 - Sprint closing behavior
 - Task backlog reassignment logic
 
+Testing stack:
+
+- JUnit 5
+- Mockito
+
 ---
 
 ## ▶ How to Run
 
-1. Configure MySQL database  
-2. Update application.properties  
-3. Run:
+### 1. Configure MySQL database
 
-    ```bash
+Create a database in MySQL.
+
+### 2. Update `application.properties`
+
+Configure your database credentials:
+
+    spring.datasource.url=jdbc:mysql://localhost:3306/your_db
+    spring.datasource.username=your_user
+    spring.datasource.password=your_password
+    
+### 3. Build and run the application
+
     mvn clean install
     mvn spring-boot:run
-    ```
+
+The API will start on the default Spring Boot port (8080).
 
 ---
 
@@ -88,3 +120,11 @@ Unit tests cover:
 - Dockerization
 - CI/CD pipeline
 - Integration tests
+
+---
+
+## 👨‍💻 Author
+
+Developed as a backend portfolio project to demonstrate business rule implementation, clean architecture, and unit testing using Spring Boot.
+
+---
